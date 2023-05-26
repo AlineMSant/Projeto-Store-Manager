@@ -14,7 +14,7 @@ describe('Testes de unidade do model de sales', function () {
     expect(result).to.be.deep.equal(allSales);
   });
 
-  it('Recuperando produto por id', async function () {
+  it('Recuperando sale por id', async function () {
     sinon.stub(connection, 'execute').resolves([allSales[2]]);
 
     const result = await saleModel.findById(2);
