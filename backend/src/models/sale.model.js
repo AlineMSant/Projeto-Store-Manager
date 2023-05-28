@@ -27,7 +27,42 @@ const findById = async (id) => {
   return sale;
 };
 
+// função para criar novo id para nova sale de forma dinamica, utilizado em crate de service
+const createSaleId = async () => {
+  const [[result]] = await connection.execute(
+    'SELECT MAX(id) FROM sales',
+  );
+
+  const lastSaleId = Object.values(result);
+
+  const idNewSale = lastSaleId[0] + 1;
+
+  await connection.execute(
+    'INSERT INTO sales (id) VALUE (?)',
+    [idNewSale],
+    );
+
+  return idNewSale;
+};
+
+const create = async (sale, idNewSale) => {
+  await connection.execute(
+    'INSERT INTO sales_products (sale_id, product_id, quantity) VALUE (?, ?, ?);',
+    [idNewSale, sale.productId, sale.quantity],
+  );
+
+  const [result] = await connection.execute(
+    `SELECT product_id AS productId, quantity
+    FROM sales_products WHERE sale_id = ?`,
+    [idNewSale],
+  );
+
+  return result;
+};
+
 module.exports = {
   findAll,
   findById,
+  createSaleId,
+  create,
 };

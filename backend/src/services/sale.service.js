@@ -12,7 +12,18 @@ const findById = async (id) => {
   return { type: null, message: sale };
 };
 
+const create = async (array) => {
+  const idNewSale = await saleModel.createSaleId();
+
+  const newSales = array.map((sale) => saleModel.create(sale, idNewSale));
+  const result = await Promise.all(newSales);
+
+  // promise.all retorna [[{}] , [{},{}]] por isso result[1]
+  return { message: { id: idNewSale, itemsSold: result[1] } };
+};
+
 module.exports = {
   findAll,
   findById,
+  create,
 };
