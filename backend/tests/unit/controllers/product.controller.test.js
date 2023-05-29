@@ -7,7 +7,7 @@ chai.use(sinonChai);
 
 const { productService } = require('../../../src/services');
 const { productController } = require('../../../src/controllers');
-const { allProducts, newProduct } = require('./mock/product.controller.mock');
+const { allProducts, newProduct, updatedProduct } = require('./mock/product.controller.mock');
 const validateNewProduct = require('../../../src/middlewares/validateNewProduct');
 
 describe('Teste de unidade do productController', function () {
@@ -101,6 +101,22 @@ describe('Teste de unidade do productController', function () {
       expect(res.status).to.have.been.calledWith(422);
       expect(res.json)
       .to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
+    });
+  });
+
+  describe('Alterando um produto', function () {
+    it('Deve retornar o status 200 e o produto alterado', async function () {
+      const res = {};
+      const req = { params: { id: 1 }, body: { name: 'Martelo do Batman' } };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'update').resolves({ type: null, message: updatedProduct });
+
+      await productController.updateProductById(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(updatedProduct);
     });
   });
 
