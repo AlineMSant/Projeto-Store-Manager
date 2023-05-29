@@ -18,7 +18,18 @@ const newProduct = {
   name: 'ProdutoX',
 };
 
+const retornoUpdateProduct = {
+  id: 1,
+  name: 'Martelo do Batman',
+};
+
+const inputUpdateProduct = {
+  name: 'Martelo do Batman',
+};
+
 module.exports = {
   allProducts,
   newProduct,
+  retornoUpdateProduct,
+  inputUpdateProduct,
 };
