@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const { saleModel } = require('../../../src/models'); 
 
 const connection = require('../../../src/models/connection');
-const { allSales } = require('./mocks/sale.model.mock');
+const { allSales, newSale } = require('./mocks/sale.model.mock');
 
 describe('Testes de unidade do model de sales', function () {
   it('Recuperando lista de todos as sales', async function () {
@@ -20,6 +20,14 @@ describe('Testes de unidade do model de sales', function () {
     const result = await saleModel.findById(2);
 
     expect(result).to.be.deep.equal(allSales[2]);
+  });
+
+  it('cria uma sale, sendo um unico objeto por vez', async function () {
+    sinon.stub(connection, 'execute').resolves([newSale[0]]);
+    
+    const result = await saleModel.create(3, newSale[0]);
+
+    expect(result).to.be.deep.equal(newSale[0]);
   });
 
 afterEach(function () {

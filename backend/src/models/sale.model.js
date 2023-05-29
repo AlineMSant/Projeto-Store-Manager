@@ -45,7 +45,7 @@ const createSaleId = async () => {
   return idNewSale;
 };
 
-const create = async (sale, idNewSale) => {
+const create = async (idNewSale, sale) => {
   await connection.execute(
     'INSERT INTO sales_products (sale_id, product_id, quantity) VALUE (?, ?, ?);',
     [idNewSale, sale.productId, sale.quantity],
