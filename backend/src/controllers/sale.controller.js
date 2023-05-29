@@ -27,6 +27,8 @@ const createSale = async (req, res) => {
     return res.status(422).json({ message });
   }
 
+  if (message === 'Product not found') return res.status(404).json({ message });
+
   res.status(201).json(message);
 };
 

@@ -1,4 +1,4 @@
-const { saleModel } = require('../models');
+const { saleModel, productModel } = require('../models');
 const schema = require('./validations/validateInputValues');
 
 const findAll = async () => {
@@ -16,14 +16,17 @@ const findById = async (id) => {
 const create = async (array) => {
   const errors = schema.validateValuesSales(array);
   const someError = errors.some((error) => error.type !== null);
-
   if (someError) {
     const finalError = errors.find((error) => error.type !== null);
     return finalError;
   }
 
-  const idNewSale = await saleModel.createSaleId();
+  const validateProduct = array.map((sale) => productModel.findById(sale.productId));
+  const productsResult = await Promise.all(validateProduct);
+  const someNotFound = productsResult.some((product) => product === undefined);
+  if (someNotFound) return { type: 'NOT_FOUND', message: 'Product not found' };
 
+  const idNewSale = await saleModel.createSaleId();
   const newSales = array.map((sale) => saleModel.create(sale, idNewSale));
   const result = await Promise.all(newSales);
 
