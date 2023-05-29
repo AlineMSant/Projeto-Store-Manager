@@ -71,21 +71,6 @@ describe('Teste de unidade de saleController', function () {
       expect(res.status).to.have.been.calledWith(201);
       expect(res.json).to.have.been.calledWith(newSale);
     });
-
-    // it('Deve retornar o status 404 e mensagem de erro caso o id não exista ', async function () {
-    //   const res = {};
-    //   const req = { params: { id: 999 } };
-
-    //   res.status = sinon.stub().returns(res);
-    //   res.json = sinon.stub().returns();
-    //   sinon.stub(saleService, 'findById')
-    //   .resolves({ type: 'SALE_NOT_FOUND', message: 'Sale not found' });
-
-    //   await saleController.getSaleById(req, res);
-
-    //   expect(res.status).to.have.been.calledWith(404);
-    //   expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
-    // });
   });
 
   afterEach(function () {
