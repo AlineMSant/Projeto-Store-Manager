@@ -19,6 +19,14 @@ const createSale = async (req, res) => {
   const array = req.body;
   const { message } = await saleService.create(array);
 
+  if (message === '"quantity" is required' || message === '"productId" is required') {
+    return res.status(400).json({ message });
+  }
+
+  if (message === '"quantity" must be greater than or equal to 1') {
+    return res.status(422).json({ message });
+  }
+
   res.status(201).json(message);
 };
 
