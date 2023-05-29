@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const { productService } = require('../../../src/services');
 
 const { productModel } = require('../../../src/models');
-const { allProducts, newProduct } = require('./mocks/products.service.mock');
+const { allProducts, newProduct, updatedProduct } = require('./mocks/products.service.mock');
 
 describe('Verificando service para productos', function () {
   describe('listagem de produtos', function () {
@@ -41,10 +41,31 @@ describe('Verificando service para productos', function () {
     it('cria um produto valido', async function () {
       sinon.stub(productModel, 'create').resolves(newProduct);
 
-      const result = await productService.create({ name: 'ProdutoX' });
+      const result = await productService.create('ProdutoX');
 
       expect(result.type).to.be.equal(null);
       expect(result.message).to.deep.equal(newProduct);
+    });
+  });
+
+  describe('atualiza um produto', function () {
+    it('atualiza com valores validos', async function () {
+      sinon.stub(productModel, 'findById').resolves(allProducts[0]);
+      sinon.stub(productModel, 'update').resolves(updatedProduct);
+
+      const result = await productService.update(1, 'Martelo do Batman');
+
+      expect(result.type).to.be.equal(null);
+      expect(result.message).to.deep.equal(updatedProduct);
+    });
+
+    it('retorna mensagem de erro caso o valor name não exista', async function () {
+      sinon.stub(productModel, 'findById').resolves(false);
+
+      const result = await productService.update(999, 'Martelo do Batman');
+
+      expect(result.type).to.be.equal('NOT_FOUND');
+      expect(result.message).to.deep.equal('Product not found');
     });
   });
 
