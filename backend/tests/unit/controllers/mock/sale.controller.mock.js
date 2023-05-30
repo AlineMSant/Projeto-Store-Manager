@@ -44,8 +44,44 @@ const newSale = {
   ],
 };
 
+const incorrectInput = [
+  {
+    xablau: 1,
+    quantity: 1,
+  },
+  {
+    productId: 2,
+    quantity: 5,
+  },
+];
+
+const incorrectQuantity = [
+  {
+    productId: 1,
+    quantity: 0,
+  },
+  {
+    productId: 2,
+    quantity: 5,
+  },
+];
+
+const inputNoProduct = [
+  {
+    productId: 9999,
+    quantity: 1,
+  },
+  {
+    productId: 2,
+    quantity: 5,
+  },
+];
+
 module.exports = {
   allSales,
   inputNewSale,
   newSale,
+  incorrectInput,
+  incorrectQuantity,
+  inputNoProduct,
 };
