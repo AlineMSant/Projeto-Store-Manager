@@ -2,8 +2,8 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { saleService } = require('../../../src/services');
 
-const { saleModel } = require('../../../src/models');
-const { allSales } = require('./mocks/sale.service.mock');
+const { saleModel, productModel } = require('../../../src/models');
+const { allSales, product, updatedSale } = require('./mocks/sale.service.mock');
 
 describe('Verificando service para sales', function () {
   describe('listagem de sales', function () {
@@ -34,6 +34,38 @@ describe('Verificando service para sales', function () {
 
       expect(result.type).to.be.equal('SALE_NOT_FOUND');
       expect(result.message).to.deep.equal('Sale not found');
+    }); 
+  });
+
+  describe('atualizando uma sale', function () {
+    it('atualiza a quantity de uma sale com sucesso', async function () {
+      sinon.stub(saleModel, 'findById').resolves(allSales[0]);
+      sinon.stub(productModel, 'findById').resolves(product);
+      sinon.stub(saleModel, 'update').resolves(updatedSale);
+
+      const result = await saleService.update(20, 1, 2);
+
+      expect(result.type).to.be.equal(null);
+      expect(result.message).to.deep.equal(updatedSale);
+    });
+
+    it('retorna mensagem de erro caso o id de sale não exista', async function () {
+      sinon.stub(saleModel, 'findById').resolves([]);
+
+      const result = await saleService.update(20, 9999, 2);
+
+      expect(result.type).to.be.equal('NOT_FOUND');
+      expect(result.message).to.deep.equal('Sale not found');
+    });
+
+    it('retorna mensagem de erro caso o id de product não exista', async function () {
+      sinon.stub(saleModel, 'findById').resolves(allSales[0]);
+      sinon.stub(productModel, 'findById').resolves(false);
+
+      const result = await saleService.update(20, 1, 999);
+
+      expect(result.type).to.be.equal('NOT_FOUND');
+      expect(result.message).to.deep.equal('Product not found in sale');
     }); 
   });
 

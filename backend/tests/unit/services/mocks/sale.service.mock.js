@@ -19,6 +19,20 @@ const allSales = [
   },
 ];
 
+const updatedSale = {
+  date: '2023-05-06T03:14:28.000Z',
+  productId: 2,
+  quantity: 20,
+  saleId: 1,
+};
+
+const product = {
+  id: 2,
+  name: 'Traje de encolhimento',
+};
+
 module.exports = {
   allSales,
+  updatedSale,
+  product,
 };
