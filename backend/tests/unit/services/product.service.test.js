@@ -69,6 +69,26 @@ describe('Verificando service para productos', function () {
     });
   });
 
+  describe('remove um produto', function () {
+    it('remove produco com id valido', async function () {
+      sinon.stub(productModel, 'findById').resolves(allProducts[0]);
+      sinon.stub(productModel, 'deleteProduct').resolves(1);
+
+      const result = await productService.deleteProduct(1);
+
+      expect(result.type).to.be.equal(null);
+    });
+
+    it('retorna mensagem de erro caso não encontre o id existente', async function () {
+      sinon.stub(productModel, 'findById').resolves(false);
+
+      const result = await productService.deleteProduct(999);
+
+      expect(result.type).to.be.equal('NOT_FOUND');
+      expect(result.message).to.deep.equal('Product not found');
+    });
+  });
+
   afterEach(function () {
     sinon.restore();
   });
