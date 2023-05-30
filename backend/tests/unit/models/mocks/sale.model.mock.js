@@ -30,7 +30,15 @@ const newSale = [
   },
 ];
 
+const updatedSale = {
+  date: '2023-05-06T03:14:28.000Z',
+  productId: 2,
+  quantity: 20,
+  saleId: 1,
+};
+
 module.exports = {
   allSales,
   newSale,
+  updatedSale,
 };
