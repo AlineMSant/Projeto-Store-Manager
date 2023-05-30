@@ -11,6 +11,8 @@ const { allProducts, newProduct, updatedProduct } = require('./mock/product.cont
 const validateNewProduct = require('../../../src/middlewares/validateNewProduct');
 
 describe('Teste de unidade do productController', function () {
+  const productNotFound = 'Product not found';
+
   describe('Listando todas os produtos', function () {
     it('Deve retornar o status 200 e todos os produtos', async function () {
       const res = {};
@@ -49,12 +51,12 @@ describe('Teste de unidade do productController', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(productService, 'findById')
-      .resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' });
+      .resolves({ type: 'PRODUCT_NOT_FOUND', message: productNotFound });
 
       await productController.getProductById(req, res);
 
       expect(res.status).to.have.been.calledWith(404);
-      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+      expect(res.json).to.have.been.calledWith({ message: productNotFound });
     });
   });
 
@@ -118,6 +120,21 @@ describe('Teste de unidade do productController', function () {
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(updatedProduct);
     });
+
+    it('Deve retornar o status 400 caso não encontreo id', async function () {
+      const res = {};
+      const req = { params: { id: 999 }, body: { name: 'Martelo do Batman' } };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'update')
+      .resolves({ type: 'NOT_FOUND', message: productNotFound });
+
+      await productController.updateProductById(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: productNotFound });
+    });
   });
 
   describe('Removendo um produto', function () {
@@ -141,12 +158,12 @@ describe('Teste de unidade do productController', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(productService, 'deleteProduct').resolves({
-        type: 'NOT_FOUND', message: 'Product not found' });
+        type: 'NOT_FOUND', message: productNotFound });
 
       await productController.deleteProduct(req, res);
 
       expect(res.status).to.have.been.calledWith(404);
-      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+      expect(res.json).to.have.been.calledWith({ message: productNotFound });
     });
   });
 
