@@ -30,6 +30,14 @@ describe('Testes de unidade do model de sales', function () {
     expect(result).to.be.deep.equal(newSale[0]);
   });
 
+  it('Deleta uma sale por id', async function () {
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+
+    const result = await saleModel.deleteSale(2);
+
+    expect(result).to.be.equal(1);
+  });
+
 afterEach(function () {
   sinon.restore();
 });
