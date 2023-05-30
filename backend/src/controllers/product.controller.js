@@ -38,7 +38,7 @@ const deleteProduct = async (req, res) => {
   
   if (type === 'NOT_FOUND') return res.status(404).json({ message });
 
-  return res.status(204).end();
+  return res.status(204).json();
 };
 
 module.exports = {

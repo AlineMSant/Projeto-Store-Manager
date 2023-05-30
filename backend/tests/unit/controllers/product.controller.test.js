@@ -120,6 +120,36 @@ describe('Teste de unidade do productController', function () {
     });
   });
 
+  describe('Removendo um produto', function () {
+    it('Deve retornar o status 204', async function () {
+      const res = {};
+      const req = { params: { id: 1 } };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'deleteProduct').resolves({ type: null });
+
+      await productController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+    });
+
+    it('Deve retornar o status 404 quando o id informado for incorreto', async function () {
+      const res = {};
+      const req = { params: { id: 999 } };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'deleteProduct').resolves({
+        type: 'NOT_FOUND', message: 'Product not found' });
+
+      await productController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+    });
+  });
+
   afterEach(function () {
     sinon.restore();
   });
