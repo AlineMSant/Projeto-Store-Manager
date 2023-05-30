@@ -73,6 +73,36 @@ describe('Teste de unidade de saleController', function () {
     });
   });
 
+  describe('Deletando uma sale', function () {
+    it('Deve retornar o status 204 quando remove uma sale', async function () {
+      const res = {};
+      const req = { params: { id: 1 } };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(saleService, 'deleteSale').resolves({ type: null });
+
+      await saleController.deleteSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+    });
+
+    it('Deve retornar o status 404 e mensagem de erro ', async function () {
+      const res = {};
+      const req = { params: { id: 999 } };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(saleService, 'deleteSale')
+      .resolves({ type: 'SALE_NOT_FOUND', message: 'Sale not found' });
+
+      await saleController.deleteSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
+  });
+
   afterEach(function () {
     sinon.restore();
   });
