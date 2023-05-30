@@ -22,14 +22,22 @@ describe('Testes de unidade do model de sales', function () {
     expect(result).to.be.deep.equal(allSales[2]);
   });
 
-  it('cria uma sale, sendo um unico objeto por vez', async function () {
+  it('cria uma sale', async function () {
+    sinon.stub(connection, 'execute').resolves([[{ id: 2 }]]);
+    
+    const result = await saleModel.createSaleId();
+
+    expect(result).to.be.deep.equal(3);
+  });
+
+  it('cria uma sale_product, sendo um unico objeto por vez', async function () {
     sinon.stub(connection, 'execute').resolves([newSale[0]]);
     
     const result = await saleModel.create(3, newSale[0]);
 
     expect(result).to.be.deep.equal(newSale[0]);
   });
-
+  
   it('Deleta uma sale por id', async function () {
     sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
 

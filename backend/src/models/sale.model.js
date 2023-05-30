@@ -30,7 +30,7 @@ const findById = async (id) => {
 // função para criar novo id para nova sale de forma dinamica, utilizado em crate de service
 const createSaleId = async () => {
   const [[result]] = await connection.execute(
-    'SELECT MAX(id) FROM sales',
+    'SELECT MAX(id) AS id FROM sales',
   );
 
   const lastSaleId = Object.values(result);
