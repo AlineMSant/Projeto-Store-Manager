@@ -60,9 +60,20 @@ const create = async (idNewSale, sale) => {
   return result;
 };
 
+const deleteSale = async (id) => {
+  const [{ affectedRows }] = await connection.execute(
+    `DELETE FROM sales
+    WHERE id = ?`,
+    [id],
+  );
+
+  return affectedRows;
+};
+
 module.exports = {
   findAll,
   findById,
   createSaleId,
   create,
+  deleteSale,
 };
