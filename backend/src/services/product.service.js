@@ -5,6 +5,16 @@ const findAll = async () => {
   return { type: null, message: products };
 };
 
+const search = async (q) => {
+  if (!q) {
+ const allProduct = await productModel.findAll(); 
+ return { message: allProduct };
+}
+    
+  const product = await productModel.search(q);
+  return { message: product };
+};
+
 const findById = async (id) => {
   const product = await productModel.findById(id);
   if (!product) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
@@ -40,6 +50,7 @@ const deleteProduct = async (id) => {
 
 module.exports = {
   findAll,
+  search,
   findById,
   create,
   update,
