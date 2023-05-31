@@ -10,8 +10,8 @@ Esse projeto consiste na criação de um sistema de gerenciamento de vendas onde
  - Testes para APIs garantindo a implementação dos endpoints.
 
 ## Arquivos desenvolvidos:
- -backend/src;
- -backend/tests/units.
+ -backend/src; <br>
+ -backend/tests/unit.
 
 ## Como entrar em contato?
 Email: alinems4120@gmail.com <br>
