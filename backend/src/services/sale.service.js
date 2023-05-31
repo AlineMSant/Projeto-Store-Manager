@@ -30,7 +30,7 @@ const create = async (array) => {
   const newSales = array.map((sale) => saleModel.create(idNewSale, sale));
   const [result] = await Promise.all(newSales);
 
-  // promise.all retorna [[{}] , [{},{}]] por isso result[1]
+  // promise.all retorna [[{}] , [{},{}]] por isso [result]
   return { message: { id: idNewSale, itemsSold: result } };
 };
 
