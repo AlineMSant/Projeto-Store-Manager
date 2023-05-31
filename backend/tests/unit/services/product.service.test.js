@@ -89,6 +89,25 @@ describe('Verificando service para productos', function () {
     });
   });
 
+  describe('pesquisa por um produto', function () {
+    it('pesquisa um produto que existe', async function () {
+      sinon.stub(productModel, 'findAll').resolves(allProducts[0]);
+      sinon.stub(productModel, 'search').resolves(allProducts[0]);
+
+      const result = await productService.search(allProducts[0]);
+
+      expect(result.message).to.be.equal(allProducts[0]);
+    });
+
+    it('pesquisa sem query', async function () {
+      sinon.stub(productModel, 'findAll').resolves(allProducts);
+
+      const result = await productService.search(false);
+
+      expect(result.message).to.deep.equal(allProducts);
+    });
+  });
+
   afterEach(function () {
     sinon.restore();
   });

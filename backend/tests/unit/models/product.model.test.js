@@ -49,6 +49,14 @@ describe('Testes de unidade do model de produtos', function () {
     expect(result).to.be.equal(1);
   });
 
+  it('Pesquisa produto', async function () {
+    sinon.stub(connection, 'execute').resolves([allProducts]);
+
+    const result = await productModel.search();
+
+    expect(result).to.be.equal(allProducts);
+  });
+
 afterEach(function () {
   sinon.restore();
 });

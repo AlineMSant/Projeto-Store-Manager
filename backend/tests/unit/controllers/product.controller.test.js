@@ -167,6 +167,22 @@ describe('Teste de unidade do productController', function () {
     });
   });
 
+  describe('Pesquisando um produto', function () {
+    it('Deve retornar o status 200 e o produto', async function () {
+      const res = {};
+      const req = { query: { 9: 'Martelo' } };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productService, 'search').resolves({ message: allProducts[0] });
+
+      await productController.searchProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(allProducts[0]);
+    });
+  });
+
   afterEach(function () {
     sinon.restore();
   });
