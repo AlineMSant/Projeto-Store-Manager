@@ -19,6 +19,37 @@ const allSales = [
   },
 ];
 
+const inputCreateSale = [
+  {
+    productId: 1,
+    quantity: 1,
+  },
+];
+
+const inputErrorCreateSale = [
+  {
+    xablau: 1,
+    quantity: 1,
+  },
+];
+
+const inputErrorProduct = [
+  {
+    productId: 9999,
+    quantity: 1,
+  },
+];
+
+const resultCreateSale = {
+  id: 3,
+  itemsSold: [
+    {
+      productId: 1,
+      quantity: 1,
+    },
+  ],
+};
+
 const updatedSale = {
   date: '2023-05-06T03:14:28.000Z',
   productId: 2,
@@ -33,6 +64,10 @@ const product = {
 
 module.exports = {
   allSales,
+  inputCreateSale,
+  inputErrorCreateSale,
+  inputErrorProduct,
+  resultCreateSale,
   updatedSale,
   product,
 };

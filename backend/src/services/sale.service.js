@@ -28,10 +28,10 @@ const create = async (array) => {
 
   const idNewSale = await saleModel.createSaleId();
   const newSales = array.map((sale) => saleModel.create(idNewSale, sale));
-  const result = await Promise.all(newSales);
+  const [result] = await Promise.all(newSales);
 
   // promise.all retorna [[{}] , [{},{}]] por isso result[1]
-  return { message: { id: idNewSale, itemsSold: result[1] } };
+  return { message: { id: idNewSale, itemsSold: result } };
 };
 
 const update = async (quantity, saleId, productId) => {

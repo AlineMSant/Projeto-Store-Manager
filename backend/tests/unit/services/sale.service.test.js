@@ -3,7 +3,12 @@ const sinon = require('sinon');
 const { saleService } = require('../../../src/services');
 
 const { saleModel, productModel } = require('../../../src/models');
-const { allSales, product, updatedSale } = require('./mocks/sale.service.mock');
+const { allSales, product,
+  updatedSale, inputCreateSale,
+  inputErrorCreateSale, inputErrorProduct,
+  resultCreateSale } = require('./mocks/sale.service.mock');
+const { validateValuesSales } = require('../../../src/services/validations/validateInputValues');
+const schemas = require('../../../src/services/validations/schemas');
 
 describe('Verificando service para sales', function () {
   describe('listagem de sales', function () {
@@ -66,6 +71,44 @@ describe('Verificando service para sales', function () {
 
       expect(result.type).to.be.equal('NOT_FOUND');
       expect(result.message).to.deep.equal('Product not found in sale');
+    }); 
+  });
+
+  describe('cria uma sale', function () {
+    it('retorna erro em validateValues', async function () {
+      sinon.stub(schemas, 'addSales').resolves({
+        message: { type: 'INVALID_VALUES', message: '"productId" is required' } });
+      const error = validateValuesSales(inputErrorCreateSale);
+      const result = await saleService.create(inputErrorCreateSale);
+
+      expect(error[0].type).to.be.equal('INVALID_VALUES');
+      expect(error[0].message).to.be.equal('"productId" is required');
+      expect(result.type).to.be.equal('INVALID_VALUES');
+      expect(result.message).to.be.equal('"productId" is required');
+    });
+
+    it('retorna mensagem de erro caso não encontre um produto', async function () {
+      sinon.stub(schemas, 'addSales').resolves({ type: null, message: '' });
+      sinon.stub(productModel, 'findById').resolves(undefined);
+
+      const result = await saleService.create(inputErrorProduct);
+
+      expect(result.type).to.be.equal('NOT_FOUND');
+      expect(result.message).to.deep.equal('Product not found');
+    });
+
+    it('retorna a sale criada', async function () {
+      sinon.stub(schemas, 'addSales').resolves({ type: null, message: '' });
+      sinon.stub(productModel, 'findById').resolves({
+        id: 1,
+        name: 'Martelo de Thor',
+      });
+      sinon.stub(saleModel, 'createSaleId').resolves(3);
+      sinon.stub(saleModel, 'create').resolves(inputCreateSale);
+
+      const result = await saleService.create(inputCreateSale);
+
+      expect(result).to.deep.equal({ message: resultCreateSale });
     }); 
   });
 
