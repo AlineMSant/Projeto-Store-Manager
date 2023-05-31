@@ -27,7 +27,7 @@ const create = async (array) => {
   if (someNotFound) return { type: 'NOT_FOUND', message: 'Product not found' };
 
   const idNewSale = await saleModel.createSaleId();
-  const newSales = array.map((sale) => saleModel.create(idNewSale, sale));
+  const newSales = await array.map((sale) => saleModel.create(idNewSale, sale));
   const [result] = await Promise.all(newSales);
 
   // promise.all retorna [[{}] , [{},{}]] por isso [result]
