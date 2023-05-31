@@ -1,10 +1,14 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# Projeto Store Manager 
+
+## Qual a funcionalidade?
+Esse projeto consiste na criação de um sistema de gerenciamento de vendas onde que é possível criar, visualizar, deletar e atualizar produtos e vendas.
+
+## Habilidades desenvolvidas:
+ - Interação com um banco de dados relacional MySQL;
+ - Implementação de uma API utilizando arquitetura em camadas;
+ - Criação das validações para os dados recebidos pela API;
+ - Testes para APIs garantindo a implementação dos endpoints;
+
+## Como entrar em contato?
+Email: alinems4120@gmail.com <br>
+Linkedin: <a href="https://www.linkedin.com/in/alinemourasantos-dev/" target="_blank">Clique aqui</a>
